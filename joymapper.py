@@ -87,7 +87,7 @@ class JOY_MAPPER():
             self.joy.set_axis(pyvjoy.HID_USAGE_RX, self.axis_def)
             self.joy.set_axis(pyvjoy.HID_USAGE_RY, self.axis_def)
 
-    ###### BUTTON ######
+    ###### BUTTONS ######
     def SET_BUTTON(self, buttonId, state, duration=0):
         print(
             f"SET_BUTTON ID '{buttonId}', STATE {state}, DURATION {duration}")
@@ -110,6 +110,7 @@ class JOY_MAPPER():
 
         self.joy.set_button(buttonId, 0)
 
+    # only 4 DIRECTIONS POV !
     def SET_POV(self, state, duration: int):
         print(
             f"SET_POV STATE {state}, DURATION {duration}")
@@ -118,56 +119,3 @@ class JOY_MAPPER():
         if duration > 0:
             time.sleep(duration)
             self.joy.set_disc_pov(1, -1)
-
-
-joy = JOY_MAPPER(pyvjoy.VJoyDevice(1))
-
-time.sleep(2)
-
-
-loopTimes = 30
-currentLoops = 0
-
-
-def DO_LOOP():
-    global loopTimes, currentLoops
-
-    print(f"CURRENT LOOP -> {currentLoops}")
-
-    # SHINSEKAI SPAWN TO BILLIKEN STATUE
-    joy.SET_TWO_AXIS(pyvjoy.HID_USAGE_Y, 0, pyvjoy.HID_USAGE_Z, 0.625, 1.5)
-    joy.SET_AXIS(pyvjoy.HID_USAGE_Y, 0, 0.8)
-
-    # BILLIKEN STATUE DIALOGUE
-    joy.SET_BUTTON(3, 1, 0.25)
-    joy.SET_BUTTON(4, 1)
-    joy.SMASH_BUTTON(2, 0.25, 4.5)
-    joy.SET_BUTTON(4, 0)
-
-    # MAP CHANGE
-    # IN SHINSEKAI
-    joy.SET_BUTTON(5, 1, 0.1)
-    time.sleep(.75)
-    joy.SET_POV(0, 0.1)
-    time.sleep(0.1)
-    joy.SET_BUTTON(2, 1, 0.1)
-
-    time.sleep(4)  # MAP LOAD
-
-    # IN DONTONBORI
-    joy.SET_BUTTON(5, 1, 0.1)
-    time.sleep(.75)
-    joy.SET_POV(2, 0.1)
-    time.sleep(0.1)
-    joy.SET_POV(2, 0.1)
-    time.sleep(0.1)
-    joy.SET_BUTTON(2, 1, 0.1)
-
-    time.sleep(4)  # MAP LOAD
-
-    if currentLoops < loopTimes:
-        currentLoops += 1
-        DO_LOOP()
-
-
-DO_LOOP()
